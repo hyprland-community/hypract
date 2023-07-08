@@ -1,10 +1,21 @@
-# Hypract
+# Hypract [WIP]
 KDE activities for Hyprland using Hyprland-rs
 
-## Installation (incomplete lol, just use basic cargo knowledge)
-for now only official way is using nix, but if you know
-how to build using cargo, then that works perfectly too
+## Usage
+> This cli tool replaces your workspace change commands so keep that in mind
 
+- use `switch-workspace <workspace name>` to switch to that workspace
+- use `switch-activity <activity name>` to switch to that activity
+
+## Installation
+
+### Cargo
+To install just do `cargo install --git https://github.com/hyprland-community/hypract`
+> I think
+
+### Nix
+To just run
 ```
 nix run github:hyprland-community/hypract
 ```
+Otherwise reference `the-flake-input.packages.${pkgs.system}.hypract`
