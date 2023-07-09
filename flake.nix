@@ -30,11 +30,19 @@
         crateOutputs = config.nci.outputs.${crateName};
       in {
         nci.projects.${crateName}.relPath = "";
-        nci.crates.${crateName} = {
-          export = true;
-          overrides.cmake-stuff.overrideAttrs = old: {
-            nativeBuildInputs = (old.nativeBuildInputs or []) ++ (with pkgs; [cmake pkg-config]);
+        nci.crates.${crateName} = let
+          cmake-stuff = rec {
+            RUSTFLAGS = "-C target-cpu=native";
+            RUSTDOCFLAGS = RUSTFLAGS;
+            overrideAttrs = old: {
+              nativeBuildInputs = (old.nativeBuildInputs or []) ++ (with pkgs; [cmake pkg-config]);
+            };
           };
+        in {
+          export = true;
+
+          depsOverrides.cmake-stuff = cmake-stuff;
+          overrides.cmake-stuff = cmake-stuff;
         };
         devShells.default = crateOutputs.devShell;
         packages.default = crateOutputs.packages.release;
