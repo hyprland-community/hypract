@@ -26,11 +26,8 @@
         config,
         ...
       }: let
-        crateName = "hypract";
-        crateOutputs = config.nci.outputs.${crateName};
-      in {
-        nci.projects.${crateName}.relPath = "";
-        nci.crates.${crateName} = let
+        mainCrateOutputs = config.nci.outputs.hypract;
+        crate = let
           cmake-stuff = rec {
             RUSTFLAGS = "-C target-cpu=native";
             RUSTDOCFLAGS = RUSTFLAGS;
@@ -44,8 +41,14 @@
           depsOverrides.cmake-stuff = cmake-stuff;
           overrides.cmake-stuff = cmake-stuff;
         };
-        devShells.default = crateOutputs.devShell;
-        packages.default = crateOutputs.packages.release;
+      in {
+        nci.projects.hypract.relPath = "";
+        nci.crates.hypract = crate;
+        nci.crates.hypract-anyrun = crate;
+        devShells.default = mainCrateOutputs.devShell;
+        packages.default = mainCrateOutputs.packages.release;
+        packages.hypract = mainCrateOutputs.packages.release;
+        packages.hypract-anyrun = config.nci.outputs.hypract-anyrun.packages.release;
       };
     };
 }
