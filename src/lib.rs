@@ -1,6 +1,10 @@
 use anyhow::{anyhow, Result};
 use hyprland::dispatch::*;
-use hyprland::{data::Workspace, dispatch, prelude::*};
+use hyprland::{
+    data::{Workspace, Workspaces},
+    dispatch,
+    prelude::*,
+};
 use serde::{Deserialize, Serialize};
 use simd_json::{from_reader, to_string};
 use std::collections::HashMap;
@@ -97,11 +101,15 @@ impl State {
         self.write_to_file().await?;
         Ok(())
     }
-    pub async fn current_raw_workspace(&self) -> Result<String> {
-        let awork = Workspace::get_active_async().await?;
-        Ok(self.workspaces.get(&awork.name).cloned().unwrap_or({
-            if let Some(Some(name)) = awork
-                .name
+    pub fn raw_workspaces_sync(&self) -> Result<Vec<String>> {
+        let works = Workspaces::get()?;
+        Ok(works
+            .filter_map(|work| self.raw_workspace(work.name).ok())
+            .collect())
+    }
+    pub fn raw_workspace(&self, work: String) -> Result<String> {
+        Ok(self.workspaces.get(&work).cloned().unwrap_or({
+            if let Some(Some(name)) = work
                 .split_once("-[")
                 .map(|v| v.1.split_once("]-").map(|v2| v2.0))
             {
@@ -110,6 +118,10 @@ impl State {
                 return Err(anyhow!("Somehow the current workspace can't be found"));
             }
         }))
+    }
+    pub async fn current_raw_workspace(&self) -> Result<String> {
+        let awork = Workspace::get_active_async().await?;
+        self.raw_workspace(awork.name)
     }
 }
 
