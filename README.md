@@ -19,3 +19,6 @@ To just run
 nix run github:hyprland-community/hypract
 ```
 Otherwise reference `the-flake-input.packages.${pkgs.system}.hypract`
+
+## Anyrun
+For anyrun details check [here](https://github.com/hyprland-community/hypract/tree/master/hypract-anyrun)
