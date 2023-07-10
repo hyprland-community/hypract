@@ -20,5 +20,8 @@ nix run github:hyprland-community/hypract
 ```
 Otherwise reference `the-flake-input.packages.${pkgs.system}.hypract`
 
+#### Cachix
+Binaries are pushed to `https://hyprland-community.cachix.org` with the key `hyprland-community.cachix.org-1:uhMZSrDGemVRhkoog1iYkDOUsyn8PwZrnlxci3B9dEg=`
+
 ## Anyrun
 For anyrun details check [here](https://github.com/hyprland-community/hypract/tree/master/hypract-anyrun)
