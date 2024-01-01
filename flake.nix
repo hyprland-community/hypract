@@ -29,7 +29,7 @@
         mainCrateOutputs = config.nci.outputs.hypract;
         crate.drvConfig = {
           env.RUSTFLAGS = "-C target-cpu=native";
-          env.RUSTDOCFLAGS = RUSTFLAGS;
+          env.RUSTDOCFLAGS = "-C target-cpu=native";
           mkDerivation.nativeBuildInputs = with pkgs; [cmake pkg-config];
         };
       in {
