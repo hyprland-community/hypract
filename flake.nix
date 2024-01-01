@@ -35,7 +35,7 @@
           };
         in {
           drvConfig = conf;
-          depDrvConfig = conf;
+          depsDrvConfig = conf;
         };
       in {
         nci.projects.hypract.path = ./.;
