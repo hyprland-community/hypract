@@ -27,10 +27,15 @@
         ...
       }: let
         mainCrateOutputs = config.nci.outputs.hypract;
-        crate.drvConfig = {
-          env.RUSTFLAGS = "-C target-cpu=native";
-          env.RUSTDOCFLAGS = "-C target-cpu=native";
-          mkDerivation.nativeBuildInputs = with pkgs; [cmake pkg-config];
+        crate = let
+          conf = {
+            env.RUSTFLAGS = "-C target-cpu=native";
+            env.RUSTDOCFLAGS = "-C target-cpu=native";
+            mkDerivation.nativeBuildInputs = with pkgs; [cmake pkg-config];
+          };
+        in {
+          drvConfig = conf;
+          depDrvConfig = conf;
         };
       in {
         nci.projects.hypract.path = ./.;
