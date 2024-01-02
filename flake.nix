@@ -28,21 +28,17 @@
       }: let
         mainCrateOutputs = config.nci.outputs.hypract;
         crate = let
-          cmake-stuff = rec {
-            RUSTFLAGS = "-C target-cpu=native";
-            RUSTDOCFLAGS = RUSTFLAGS;
-            overrideAttrs = old: {
-              nativeBuildInputs = (old.nativeBuildInputs or []) ++ (with pkgs; [cmake pkg-config]);
-            };
+          conf = {
+            env.RUSTFLAGS = "-C target-cpu=native";
+            env.RUSTDOCFLAGS = "-C target-cpu=native";
+            mkDerivation.nativeBuildInputs = with pkgs; [cmake pkg-config];
           };
         in {
-          export = true;
-
-          depsOverrides.cmake-stuff = cmake-stuff;
-          overrides.cmake-stuff = cmake-stuff;
+          drvConfig = conf;
+          depsDrvConfig = conf;
         };
       in {
-        nci.projects.hypract.relPath = "";
+        nci.projects.hypract.path = ./.;
         nci.crates.hypract = crate;
         nci.crates.hypract-anyrun = crate;
         devShells.default = mainCrateOutputs.devShell;
