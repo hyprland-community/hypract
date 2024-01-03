@@ -16,7 +16,7 @@ is pretty self explanatory.
 
 ### Cargo
 
-1. Clone the repo: `git clone https://github.com/hypract/hypract` or `gh repo clone hypract/hypract`
+1. Clone the repo: `git clone https://github.com/hyprland-community/hypract` or `gh repo clone hyprland-community/hypract`
 2. CD to it: `cd hypract`
 3. Build it: `cargo build --release --package=hypract-anyrun`
 4. Copy the built binary somewhere and reference it in your configuration (binary should be in `target/release/libhypract_anyrun.so`)
